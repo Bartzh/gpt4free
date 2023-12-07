@@ -3,18 +3,11 @@ import uvicorn, json, datetime
 
 import g4f
 
+from g4f.Provider import Bing
+
 g4f.debug.logging = True  # Enable logging
 g4f.debug.check_version = False  # Disable automatic version checking
 print(g4f.Provider.Ails.params)  # Supported args
-
-# Automatic selection of provider
-
-# Normal response
-response = g4f.ChatCompletion.create(
-    model=g4f.models.gpt_4,
-    messages=[{"role": "user", "content": "Hello"}],
-)  # Alternative model setting
-print(response)
 
 app = FastAPI()
 @app.post("/")
@@ -30,7 +23,9 @@ async def create_item(request: Request):
     temperature = json_post_list.get('temp')
     response = g4f.ChatCompletion.create(
         model=g4f.models.gpt_4,
+        provider=g4f.Provider.Bing,
         messages=[{"role": "user", "content": prompt}],
+        timeout=120
     )
     now = datetime.datetime.now()
     time = now.strftime("%Y-%m-%d %H:%M:%S")
