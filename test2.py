@@ -10,9 +10,14 @@ g4f.debug.check_version = False  # Disable automatic version checking
 print(g4f.Provider.Ails.params)  # Supported args
 
 app = FastAPI()
-@app.post("/")
+
+@app.get("/")
+def read_root():
+    print('onget')
+    return 'onget'
+
+@app.post("/imitate/v1/chat/completions")
 async def create_item(request: Request):
-    global model, tokenizer
     json_post_raw = await request.json()
     json_post = json.dumps(json_post_raw)
     json_post_list = json.loads(json_post)
