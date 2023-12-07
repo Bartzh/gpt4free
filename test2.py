@@ -21,22 +21,19 @@ async def create_item(request: Request):
     json_post_raw = await request.json()
     json_post = json.dumps(json_post_raw)
     json_post_list = json.loads(json_post)
-    prompt = json_post_list.get('prompt')
     history = json_post_list.get('history')
-    max_length = json_post_list.get('max_length')
-    top_p = json_post_list.get('topp')
-    temperature = json_post_list.get('temp')
     response = g4f.ChatCompletion.create(
         model=g4f.models.gpt_4,
         provider=g4f.Provider.Bing,
-        messages=[{"role": "user", "content": prompt}],
+        messages=history,
         timeout=120
     )
+    history.append({"role": "assistant", "content": response})
     now = datetime.datetime.now()
     time = now.strftime("%Y-%m-%d %H:%M:%S")
     answer = {
         "response": response,
-        "history": "history",
+        "history": history,
         "status": 200,
         "time": time
     }
@@ -46,4 +43,5 @@ async def create_item(request: Request):
 
 
 if __name__ == '__main__':
+    aihistory = []
     uvicorn.run(app, host='0.0.0.0', port=36262, workers=1)
