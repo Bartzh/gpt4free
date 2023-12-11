@@ -37,7 +37,7 @@ async def create_item(request: Request):
         "status": 200,
         "time": time
     }
-    log = "[" + time + "] " + '", prompt:"' + prompt + '", response:"' + repr(response) + '"'
+    log = "[" + time + "] " + '", response:"' + repr(response) + '"'
     print(log)
     return answer
 
