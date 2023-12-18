@@ -30,7 +30,7 @@ async def create_item(request: Request):
     )
     message = {"role": "assistant", "content": response}
     history.append(message)
-    choices = [{message}]
+    choices = [message]
     now = datetime.datetime.now()
     time = now.strftime("%Y-%m-%d %H:%M:%S")
     answer = {
