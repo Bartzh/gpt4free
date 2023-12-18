@@ -28,12 +28,15 @@ async def create_item(request: Request):
         messages=history,
         timeout=120
     )
-    history.append({"role": "assistant", "content": response})
+    message = {"role": "assistant", "content": response}
+    history.append(message)
+    choices = [{message}]
     now = datetime.datetime.now()
     time = now.strftime("%Y-%m-%d %H:%M:%S")
     answer = {
         "response": response,
         "messages": history,
+        "choices": choices,
         "status": 200,
         "time": time
     }
