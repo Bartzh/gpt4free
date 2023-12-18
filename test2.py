@@ -21,7 +21,7 @@ async def create_item(request: Request):
     json_post_raw = await request.json()
     json_post = json.dumps(json_post_raw)
     json_post_list = json.loads(json_post)
-    history = json_post_list.get('history')
+    history = json_post_list.get('messages')
     response = g4f.ChatCompletion.create(
         model=g4f.models.gpt_4,
         provider=g4f.Provider.Bing,
@@ -33,7 +33,7 @@ async def create_item(request: Request):
     time = now.strftime("%Y-%m-%d %H:%M:%S")
     answer = {
         "response": response,
-        "history": history,
+        "messages": history,
         "status": 200,
         "time": time
     }
